@@ -9,7 +9,7 @@
 // ~ 4. Type in the input, press enter key to add the task -> add event listener to 'keyup' and check if it is 'enter' key
 // 5. Hover on task, shows pencil icon. Clicking pencil icon allows user to edit the task. Once editing is done, a checkmark icon allows user to save the editing
 // 6. During editing, press enter key to save the task -> add event listener to 'keyup' and check if it is 'enter' key
-// 7. Close and reopen the application, it should keep all the previous tasks. // localStorage -> save to localStorage on each operation -> load from storage on initial load
+// ~ 7. Close and reopen the application, it should keep all the previous tasks. // localStorage -> save to localStorage on each operation -> load from storage on initial load
 
 // pencil html code: '&#9998;';
 // checkmark html code: '&#10003;';
@@ -87,6 +87,12 @@ const model = {
     model.todoList = newList;
     updateView();
   }
+
+  function setStoredTodos() {
+    localStorage.setItem("todos", JSON.stringify(model.todoList));
+  }
+
+  
   
   // views
   
@@ -142,6 +148,7 @@ const model = {
   function updateView() {
     updateList();
     updateTodosLeft();
+    setStoredTodos();
     // console.log(getTodoList().length);
     // console.log(countTodosLeft());
   }
@@ -197,6 +204,9 @@ const model = {
 
 
   function loadEvents() {
+    model.todoList = JSON.parse(localStorage.getItem("todos"));
+    updateView();
+
     const toggleAll = document.querySelector("#select-all");
     const addButton = document.querySelector("#addButton");
     const inputEnter = document.querySelector("#text-input");
