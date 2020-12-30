@@ -19,7 +19,8 @@
 // model layer
 const model = {
     // todo {checked: boolean, value: string, id: string}
-    todoList: []
+    todoList: [],
+    storedList: []
     // activeTab: 'ALL',
     // editingTask: "the task id"
   };
@@ -47,10 +48,6 @@ const model = {
     model.todoList.push(newTodo);
     updateView();
   }
-
-//   function editTask() {
-//     input.disabled = !input.disabled;
-//   }
   
   function deleteAllTasks() {
     model.todoList = [];
@@ -92,8 +89,6 @@ const model = {
     localStorage.setItem("todos", JSON.stringify(model.todoList));
   }
 
-  
-  
   // views
   
   function getListContainer() {
@@ -108,15 +103,16 @@ const model = {
     const input = document.createElement("input");
     input.setAttribute("type", "checkbox");
     input.checked = checked; // DOM API to set checked status
+    // input.disabled = true;
   
     const span = document.createElement("span");
     if (checked) {
       span.classList.add("checked");
     }
     span.innerHTML = value;
-    if (checked) {
-      span.classList.add("checked");
-    }
+    // if (checked) {
+    //   span.classList.add("checked");
+    // }
   
     const div1 = document.createElement("div");
     div1.innerHTML = "&#9998";
@@ -125,11 +121,16 @@ const model = {
     const div2 = document.createElement("div");
     div2.innerHTML = "&#10005;";
     div2.classList.add("delete-icon");
+
+    const div3 = document.createElement("div");
+    div3.innerHTML = "&#10003";
+    div3.classList.add("check-icon", "hide");
   
     li.appendChild(input);
     li.appendChild(span);
     li.appendChild(div1);
     li.appendChild(div2);
+    // li.appendChild(div3);
     return li;
   }
   
@@ -144,6 +145,21 @@ const model = {
       listContainer.appendChild(liNode);
     });
   }
+
+  function displayAll() {
+    updateView();
+  }
+
+//   function displayActive() {
+//     const todoList = getTodoList();
+//     const newList = todoList.map(function (todo) {
+//         if(todo.checked === false){
+//             return todo;
+//         }  
+//     });
+//     model.todoList = newList;
+//     updateView();
+//   }
   
   function updateView() {
     updateList();
@@ -179,9 +195,58 @@ const model = {
     const taskLabel = document.getElementById("task-label");
     taskLabel.textContent = `${countTodosLeft()} items left`;
   }
+
+//   function toggleHideClass(target) {
+//     if(target.classList.contains("hide")){
+//         target.classList.remove("hide");
+//     }
+//     else{
+//         target.classList.add("hide");
+//     }
+//   }
+
+  function createEditNode(value, checked, id) {
+    const li = document.createElement("li");
+  
+    li.id = id;
+    console.log(li.id);
+    const input = document.createElement("input");
+    input.setAttribute("type", "checkbox");
+    input.checked = checked; // DOM API to set checked status
+    input.disabled = true;
+  
+    const span = document.createElement("span");
+    span.classList.add("edit-span")
+    span.textContent = `${value}`;
+    
+  
+    const div1 = document.createElement("div");
+    div1.innerHTML = "&#10003";
+    div1.classList.add("check-icon");
+  
+    li.appendChild(input);
+    li.appendChild(span);
+    li.appendChild(div1);
+
+    return li;
+  }
   
   function handleContainerClick(e) {
     const target = e.target;
+
+    // if (target.classList.contains("edit-icon")) {
+    //     // target is the edit icon div
+    //     const li = target.parentNode;
+    //     const taskId = li.id;
+    //     const todo = model.todoList.find(function (todo) {
+    //         if (todo.id === taskId) {
+    //           return todo;
+    //         }
+    //     });
+    //     console.log(todo);
+    //     createEditNode(todo.value, todo.checked, todo.id);
+    //     return;
+    //   }
 
     if (target.classList.contains("delete-icon")) {
       // target is the delete icon div
@@ -202,7 +267,6 @@ const model = {
     }
   }
 
-
   function loadEvents() {
     model.todoList = JSON.parse(localStorage.getItem("todos"));
     updateView();
@@ -211,6 +275,9 @@ const model = {
     const addButton = document.querySelector("#addButton");
     const inputEnter = document.querySelector("#text-input");
     const clearAllButton = document.querySelector("#clearButton");
+    const allLabel = document.querySelector("#all-label");
+    const activeLabel = document.querySelector("#active-label");
+    const completedLabel = document.querySelector("#completed-label");
     const listContainer = getListContainer();
 
     toggleAll.addEventListener("click", toggleAllTasks);
@@ -221,6 +288,8 @@ const model = {
         }
     });
     clearAllButton.addEventListener("click", deleteAllTasks);
+    allLabel.addEventListener("click", displayAll);
+    // activeLabel.addEventListener("click", displayActive);
     listContainer.addEventListener("click", handleContainerClick);
   }
   

@@ -60,13 +60,17 @@
     background-color: rgba(0, 0, 0, 0.05);
   }
   
-  .delete-icon, .edit-icon {
+  .delete-icon, .edit-icon, .check-icon {
     display: none;
     cursor: pointer;
   }
 
   .edit-icon {
-      padding-right: 8px;
+    padding-right: 8px;
+  }
+
+  .delete-icon {
+    padding-right: 8px;
   }
   
   ul li {
@@ -88,6 +92,10 @@
   ul li:hover .delete-icon, ul li:hover .edit-icon {
     display: block;
   }
+
+  .hide {
+    display: none;
+}
   
   footer {
     display: flex;
