@@ -77,10 +77,28 @@ const model = {
 
   function toggleAllTasks() {
     const todoList = getTodoList();
-    const newList = todoList.map(function (todo) {
+    let checkedTodo = 0;
+    let newList = [];
+    todoList.map(function(todo){
+      if(todo.checked === true) {
+        checkedTodo ++;
+      }
+    });
+
+    if(todoList.length === checkedTodo){
+      newList = todoList.map(function (todo) {
         todo.checked = !todo.checked;
         return todo;
-    });
+      });
+    }
+    else{
+      newList = todoList.map(function (todo) {
+        if(todo.checked === false){
+          todo.checked = !todo.checked;
+        }
+        return todo;
+      });
+    }
     model.todoList = newList;
     updateView();
   }
@@ -110,27 +128,24 @@ const model = {
       span.classList.add("checked");
     }
     span.innerHTML = value;
-    // if (checked) {
-    //   span.classList.add("checked");
-    // }
   
-    const div1 = document.createElement("div");
-    div1.innerHTML = "&#9998";
-    div1.classList.add("edit-icon");
+    const editDiv = document.createElement("div");
+    editDiv.innerHTML = "&#9998";
+    editDiv.classList.add("edit-icon");
 
-    const div2 = document.createElement("div");
-    div2.innerHTML = "&#10005;";
-    div2.classList.add("delete-icon");
+    const deleteDiv = document.createElement("div");
+    deleteDiv.innerHTML = "&#10005;";
+    deleteDiv.classList.add("delete-icon");
 
-    const div3 = document.createElement("div");
-    div3.innerHTML = "&#10003";
-    div3.classList.add("check-icon", "hide");
+    const checkDiv = document.createElement("div");
+    checkDiv.innerHTML = "&#10003";
+    checkDiv.classList.add("check-icon", "hide");
   
     li.appendChild(input);
     li.appendChild(span);
-    li.appendChild(div1);
-    li.appendChild(div2);
-    // li.appendChild(div3);
+    li.appendChild(editDiv);
+    li.appendChild(deleteDiv);
+    // li.appendChild(checkDiv);
     return li;
   }
   
@@ -209,7 +224,7 @@ const model = {
     const li = document.createElement("li");
   
     li.id = id;
-    console.log(li.id);
+    // console.log(li.id);
     const input = document.createElement("input");
     input.setAttribute("type", "checkbox");
     input.checked = checked; // DOM API to set checked status
@@ -220,13 +235,13 @@ const model = {
     span.textContent = `${value}`;
     
   
-    const div1 = document.createElement("div");
-    div1.innerHTML = "&#10003";
-    div1.classList.add("check-icon");
+    const checkDiv = document.createElement("div");
+    checkDiv.innerHTML = "&#10003";
+    checkDiv.classList.add("check-icon");
   
     li.appendChild(input);
     li.appendChild(span);
-    li.appendChild(div1);
+    li.appendChild(checkDiv);
 
     return li;
   }
@@ -234,19 +249,19 @@ const model = {
   function handleContainerClick(e) {
     const target = e.target;
 
-    // if (target.classList.contains("edit-icon")) {
-    //     // target is the edit icon div
-    //     const li = target.parentNode;
-    //     const taskId = li.id;
-    //     const todo = model.todoList.find(function (todo) {
-    //         if (todo.id === taskId) {
-    //           return todo;
-    //         }
-    //     });
-    //     console.log(todo);
-    //     createEditNode(todo.value, todo.checked, todo.id);
-    //     return;
-    //   }
+    if (target.classList.contains("edit-icon")) {
+        // target is the edit icon div
+        const li = target.parentNode;
+        const taskId = li.id;
+        const todo = model.todoList.find(function (todo) {
+            if (todo.id === taskId) {
+              return todo;
+            }
+        });
+        // console.log(todo);
+        createEditNode(todo.value, todo.checked, todo.id);
+        return;
+      }
 
     if (target.classList.contains("delete-icon")) {
       // target is the delete icon div
