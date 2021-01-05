@@ -60,13 +60,24 @@
     background-color: rgba(0, 0, 0, 0.05);
   }
   
-  .delete-icon, .edit-icon, .check-icon {
+  .delete-icon, .edit-icon {
     display: none;
     cursor: pointer;
   }
 
-  .edit-icon {
+  .edit-input {
+    width: 100%;
+    flex-grow: 1;
+    padding: 4px;
+    font-size: 1.2rem;
+  }
+
+  .edit-icon{
     padding-right: 8px;
+  }
+
+  .check-icon {
+    cursor: pointer;
   }
 
   .delete-icon {
@@ -104,31 +115,19 @@
     justify-content: space-between;
   }
 
-  .all-label {
-    margin-right: 10px;
+  .tabs {
+    display: flex;
   }
-
-  .completed-label {
-    margin-left: 10px;
-  }
-
-  .all-label, .active-label, .completed-label {
-      /* box-sizing: border-box; */
-    display:inline-block;
-    border: 1px solid transparent;
-    border-radius: 10%;
-    align-items: center;
-    }
-
- .all-label:hover, .active-label:hover, .completed-label:hover {
-    border: 1px solid red;
-  }
-
-
-  /* .clear-all {
-    justify-content: space-between;
-  } */
   
+  .tab {
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  
+  .tab.active {
+    border: 1px solid pink;
+  }
+
   span.checked {
     text-decoration: line-through;
   }

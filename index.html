@@ -30,16 +30,17 @@
         </ul>
       </section>
       <footer>
-        <label class="task-label" id="task-label">0 items left</label>
-        <div class="label-section">
-            <label class="all-label" id="all-label">All</label>
-            <label class="active-label" id="active-label">Active</label>
-            <label class="completed-label" id="completed-label">Completed</label>
-        </div>
+        <label class="task-label" id="task-label"></label>
+        <ul class="tabs">
+          <li class="tab active" name="ALL">ALL</li>
+          <li class="tab" name="ACTIVE">ACTIVE</li>
+          <li class="tab" name="COMPLETED">COMPLETED</li>
+        </ul>
         <button class="button" id="clearButton">Clear all</button>
       </footer>
     </main>
     <script src="script.js"></script>
-    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.js"></script>
   </body>
 </html>
