@@ -4,11 +4,11 @@
 // toggle one task
 
 // ~ 1. Show how many active tasks left at the left of footer
-// 2. Three tabs in center of footer to toggle between All, Active, Completed and show filtered tasks
+// ~ 2. Three tabs in center of footer to toggle between All, Active, Completed and show filtered tasks
 // ~ 3. Left header button to toggle all tasks. If any task is not completed, set all tasks to completed. If all tasks are completed, set all to active
 // ~ 4. Type in the input, press enter key to add the task -> add event listener to 'keyup' and check if it is 'enter' key
-// 5. Hover on task, shows pencil icon. Clicking pencil icon allows user to edit the task. Once editing is done, a checkmark icon allows user to save the editing
-// 6. During editing, press enter key to save the task -> add event listener to 'keyup' and check if it is 'enter' key
+// ~ 5. Hover on task, shows pencil icon. Clicking pencil icon allows user to edit the task. Once editing is done, a checkmark icon allows user to save the editing
+// ~ 6. During editing, press enter key to save the task -> add event listener to 'keyup' and check if it is 'enter' key
 // ~ 7. Close and reopen the application, it should keep all the previous tasks. // localStorage -> save to localStorage on each operation -> load from storage on initial load
 
 // pencil html code: '&#9998;';
@@ -160,7 +160,7 @@ const model = {
     }
     span.innerHTML = value;
 
-    li.appendChild(input);
+    li.appendChild(input);  
   
     if (isEditing) {
       input.disabled = true;
@@ -268,7 +268,8 @@ const model = {
 
   function updateTodosLeft() {
     const taskLabel = document.getElementById("task-label");
-    taskLabel.textContent = `${countTodosLeft()} items left`;
+    taskLabel.textContent = `${countTodosLeft()} ${
+      countTodosLeft() === 1 ? "item" : "items"} left`;
   }
   
   function handleTabClick(e) {
@@ -280,6 +281,15 @@ const model = {
   function handleAddTaskByKey(e) {
     if (e.key === "Enter") {
       addNewTask();
+    }
+  }
+
+  function handleConfirmByKey(e) {
+    if (e.key === "Enter") {
+      const editInput = getListContainer().querySelector(".edit-input");
+      const value = editInput.value;
+      const li = editInput.parentNode;
+      toggleEdting(li.id, value, false);
     }
   }
 
@@ -351,6 +361,7 @@ const model = {
     clearAllButton.addEventListener("click", deleteAllTasks);
     tabContiner.addEventListener("click", handleTabClick);
     listContainer.addEventListener("click", handleContainerClick);
+    listContainer.addEventListener("keyup", handleConfirmByKey);
   }
   
   loadEvents();
